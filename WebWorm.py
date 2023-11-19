@@ -1,25 +1,48 @@
 import argparse
 
+RED = "\033[91m"
+GREEN = "\033[92m"
+YELLOW = "\033[93m"
+RESET = "\033[0m"
+
+
+def print_banner():
+    banner = f"""
+{YELLOW}┌──────────────────────────────────────────────────────────────┐
+│ █     █░▓█████  ▄▄▄▄    █     █░ ▒█████   ██▀███   ███▄ ▄███▓│
+│▓█░ █ ░█░▓█   ▀ ▓█████▄ ▓█░ █ ░█░▒██▒  ██▒▓██ ▒ ██▒▓██▒▀█▀ ██▒│
+│▒█░ █ ░█ ▒███   ▒██▒ ▄██▒█░ █ ░█ ▒██░  ██▒▓██ ░▄█ ▒▓██    ▓██░│
+│░█░ █ ░█ ▒▓█  ▄ ▒██░█▀  ░█░ █ ░█ ▒██   ██░▒██▀▀█▄  ▒██    ▒██ │
+│░░██▒██▓ ░▒████▒░▓█  ▀█▓░░██▒██▓ ░ ████▓▒░░██▓ ▒██▒▒██▒   ░██▒│
+│░ ▓░▒ ▒  ░░ ▒░ ░░▒▓███▀▒░ ▓░▒ ▒  ░ ▒░▒░▒░ ░ ▒▓ ░▒▓░░ ▒░   ░  ░│
+│  ▒ ░ ░   ░ ░  ░▒░▒   ░   ▒ ░ ░    ░ ▒ ▒░   ░▒ ░ ▒░░  ░      ░│
+│  ░   ░     ░    ░    ░   ░   ░  ░ ░ ░ ▒    ░░   ░ ░      ░   │
+│    ░       ░  ░ ░          ░        ░ ░     ░            ░   │
+│                      ░                                       │
+└──────────────────────────────────────────────────────────────┘{RESET}
+    """
+    print(banner)
+
 
 def main():
+    print_banner()
+
     parser = argparse.ArgumentParser(
-        description="WebWorm: A tool to scrape and download files from a website."
+        description=f"{GREEN}WebWorm: A tool to scrape and download files from a website.{RESET}"
     )
 
     parser.add_argument(
         "-e",
         "--extensions",
         type=str,
-        help='Comma-separated list of file extensions to scrape (e.g., "jpg,png,docx"). '
-        "If not specified, all files will be scraped.",
+        help=f'{YELLOW}Comma-separated list of file extensions to scrape (e.g., "jpg,png,docx"). If not specified, all files will be scraped.{RESET}',
     )
-
     parser.add_argument(
         "-d",
         "--depth",
         type=int,
         default=1,
-        help="The maximum depth to crawl the website. Default is 1.",
+        help=f"{YELLOW}The maximum depth to crawl the website. Default is 1.{RESET}",
     )
 
     args = parser.parse_args()
@@ -32,11 +55,13 @@ def main():
         ]
 
     if extensions:
-        print(f"Scraping for files with extensions: {', '.join(extensions)}")
+        print(
+            f"{GREEN}Scraping for files with extensions: {', '.join(extensions)}{RESET}"
+        )
     else:
-        print("Scraping for all files.")
+        print(f"{GREEN}Scraping for all files.{RESET}")
 
-    print(f"Maximum crawl depth: {args.depth}")
+    print(f"{GREEN}Maximum crawl depth: {args.depth}{RESET}")
 
 
 if __name__ == "__main__":
