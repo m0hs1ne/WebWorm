@@ -52,7 +52,7 @@ def main():
         exit(1)
     else:
         print(f"{GREEN}Scraping URL: {args.url}{RESET}")
-    
+
     if args.depth < 1:
         print(f"{RED}Error: Depth must be greater than 0.{RESET}")
         exit(1)
@@ -77,6 +77,7 @@ def main():
     scraper.start_scraping()
     techs = detect_tech(args.url)
     print(f"{GREEN}Detected technologies: {techs}{RESET}")
+
 
 if __name__ == "__main__":
     main()
