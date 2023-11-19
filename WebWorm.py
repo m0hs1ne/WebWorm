@@ -44,8 +44,23 @@ def main():
         default=1,
         help=f"{YELLOW}The maximum depth to crawl the website. Default is 1.{RESET}",
     )
+    parser.add_argument(
+        "url",
+        type=str,
+        help=f"{YELLOW}The URL of the website to scrape.{RESET}",
+    )
 
     args = parser.parse_args()
+
+    if not args.url.startswith("http"):
+        print(f"{RED}Error: URL must start with 'http' or 'https'.{RESET}")
+        exit(1)
+    else:
+        print(f"{GREEN}Scraping URL: {args.url}{RESET}")
+    
+    if args.depth < 1:
+        print(f"{RED}Error: Depth must be greater than 0.{RESET}")
+        exit(1)
 
     extensions = []
     if args.extensions:
