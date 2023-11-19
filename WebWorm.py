@@ -1,4 +1,5 @@
 import argparse
+from scraper import WebScraper
 
 RED = "\033[91m"
 GREEN = "\033[92m"
@@ -78,6 +79,8 @@ def main():
 
     print(f"{GREEN}Maximum crawl depth: {args.depth}{RESET}")
 
-
+    scraper = WebScraper(args.url, args.depth, extensions)
+    scraper.start_scraping()
+    
 if __name__ == "__main__":
     main()
