@@ -1,5 +1,6 @@
 import argparse
-from scraper import WebScraper
+from Scraper import WebScraper
+from TechDetector import detect_tech
 
 RED = "\033[91m"
 GREEN = "\033[92m"
@@ -74,6 +75,8 @@ def main():
 
     scraper = WebScraper(args.url, args.depth, extensions)
     scraper.start_scraping()
+    techs = detect_tech(args.url)
+    print(f"{GREEN}Detected technologies: {techs}{RESET}")
 
 if __name__ == "__main__":
     main()
