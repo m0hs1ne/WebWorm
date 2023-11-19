@@ -54,7 +54,6 @@ class WebScraper:
                         if not self.extensions or any([link.endswith(ext) for ext in self.extensions]):
                             file_url = urljoin(url, link)
                             if self.is_valid_url(file_url) and file_url not in self.downloaded_files:
-                                # print(f"{GREEN}Downloading file: {file_url}{RESET}")
                                 self.download_file(file_url)
                                 self.downloaded_files.add(file_url)
 
@@ -79,3 +78,4 @@ class WebScraper:
 
     def start_scraping(self):
         self.scrape_page(self.url, current_depth=1)
+        print(f"{YELLOW}Total unique files downloaded: {len(self.downloaded_files)}{RESET}")
