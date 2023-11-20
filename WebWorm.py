@@ -57,8 +57,11 @@ def main():
     if not args.url.startswith("http"):
         print(f"{RED}Error: URL must start with 'http' or 'https'.{RESET}")
         exit(1)
-    else:
-        print(f"{GREEN}Scraping URL: {args.url}{RESET}")
+
+    if args.tech:
+        techs = detect_tech(args.url)
+        print(f"{BLUE}{techs}{RESET}")
+        exit(0)
 
     if args.depth < 1:
         print(f"{RED}Error: Depth must be greater than 0.{RESET}")
@@ -82,9 +85,6 @@ def main():
 
     scraper = WebScraper(args.url, args.depth, extensions)
     scraper.start_scraping()
-    if args.tech:
-        techs = detect_tech(args.url)
-        print(f"{BLUE}{techs}{RESET}")
 
 
 if __name__ == "__main__":

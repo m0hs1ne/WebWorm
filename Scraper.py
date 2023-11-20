@@ -33,7 +33,8 @@ class WebScraper:
             return None
 
     def download_file(self, url, download_dir="results"):
-        os.makedirs(download_dir, exist_ok=True)
+        domain = urlparse(url).netloc
+        os.makedirs(download_dir + "/" + domain, exist_ok=True)
         filename = os.path.basename(urlparse(url).path)
         file_path = os.path.join(download_dir, filename)
         try:
