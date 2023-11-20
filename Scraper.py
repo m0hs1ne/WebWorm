@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse
+from requests.exceptions import HTTPError, ConnectionError, Timeout, RequestException
 import os
 
 RED = "\033[91m"
@@ -28,9 +29,15 @@ class WebScraper:
             response = requests.get(url)
             response.raise_for_status()
             return response.content
-        except requests.exceptions.HTTPError as e:
+        except HTTPError as e:
             print(f"{RED}HTTP error occurred: {e}{RESET}")
-            return None
+        except ConnectionError as e:
+            print(f"{RED}Connection error occurred: can't connect to {url}{RESET}")
+        except Timeout as e:
+            print(f"{RED}Timeout error occurred: {e}{RESET}")
+        except RequestException as e:
+            print(f"{RED}Unexpected error occurred: {e}{RESET}")
+        return None
 
     def download_files(self, urls, download_dir="results"):
         download_dir = os.path.join(download_dir, urlparse(self.url).netloc)
