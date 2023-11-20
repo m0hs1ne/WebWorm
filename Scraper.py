@@ -32,20 +32,22 @@ class WebScraper:
             print(f"{RED}HTTP error occurred: {e}{RESET}")
             return None
 
-    def download_file(self, url, download_dir="results"):
+    def download_files(self, urls, download_dir="results"):
         download_dir = os.path.join(download_dir, urlparse(self.url).netloc)
         os.makedirs(download_dir, exist_ok=True)
-        filename = os.path.basename(urlparse(url).path)
-        file_path = os.path.join(download_dir, filename)
-        try:
-            with requests.get(url) as response:
-                response.raise_for_status()
-                with open(file_path, "wb") as file:
-                    for chunk in response.iter_content(chunk_size=8192):
-                        file.write(chunk)
-                    print(f"{GREEN}Downloaded file: {url}{RESET}")
-        except requests.exceptions.HTTPError as e:
-            print(f"{RED}HTTP error occurred: {e}{RESET}")
+
+        for url in urls:
+            filename = os.path.basename(urlparse(url).path)
+            file_path = os.path.join(download_dir, filename)
+            try:
+                with requests.get(url, stream=True) as response:
+                    response.raise_for_status()
+                    with open(file_path, "wb") as file:
+                        for chunk in response.iter_content(chunk_size=8192):
+                            file.write(chunk)
+                        print(f"{GREEN}Downloaded file: {url}{RESET}")
+            except requests.exceptions.HTTPError as e:
+                print(f"{RED}HTTP error occurred: {e}{RESET}")
 
     def extract_files(self, soup, url):
         links_attributes = ["href", "src"]
@@ -59,10 +61,7 @@ class WebScraper:
                             [link.endswith(ext) for ext in self.extensions]
                         ):
                             file_url = urljoin(url, link)
-                            if (
-                                file_url not in self.downloaded_files
-                            ):
-                                self.download_file(file_url)
+                            if file_url not in self.downloaded_files:
                                 self.downloaded_files.add(file_url)
 
     def crawl_to_links(self, soup, url, current_depth):
@@ -85,6 +84,12 @@ class WebScraper:
 
     def start_scraping(self):
         self.scrape_page(self.url, current_depth=1)
-        print(
-            f"{YELLOW}Total unique files downloaded: {len(self.downloaded_files)}{RESET}"
-        )
+        if len(self.downloaded_files) > 0:
+            print(f"{YELLOW}Discovered {len(self.downloaded_files)} files.{RESET}")
+            userRes = input("Do you want to download them? (y/n): ").strip().lower()
+            if userRes == "y":
+                self.download_files(self.downloaded_files)
+            else:
+                print(f"{RED}Download aborted.{RESET}")
+        else:
+            print(f"{YELLOW}No files found.{RESET}")
