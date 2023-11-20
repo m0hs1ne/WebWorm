@@ -4,6 +4,7 @@ from TechDetector import detect_tech
 
 RED = "\033[91m"
 GREEN = "\033[92m"
+BLUE = "\033[94m"
 YELLOW = "\033[93m"
 RESET = "\033[0m"
 
@@ -44,6 +45,12 @@ def main():
         type=str,
         help=f"{YELLOW}The URL of the website to scrape.{RESET}",
     )
+    parser.add_argument(
+        "-t",
+        "--tech",
+        action="store_true",
+        help=f"{YELLOW}Detect technologies used on the website.{RESET}",
+    )
 
     args = parser.parse_args()
 
@@ -75,8 +82,9 @@ def main():
 
     scraper = WebScraper(args.url, args.depth, extensions)
     scraper.start_scraping()
-    techs = detect_tech(args.url)
-    print(f"{GREEN}Detected technologies: {techs}{RESET}")
+    if args.tech:
+        techs = detect_tech(args.url)
+        print(f"{BLUE}{techs}{RESET}")
 
 
 if __name__ == "__main__":
