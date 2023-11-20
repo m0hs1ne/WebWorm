@@ -74,6 +74,9 @@ options:
                         The maximum depth to crawl the website. Default is 1.
   -t, --tech            Detect technologies used on the website.
 ```
+using the `-t` flag will detect technologies used by the website.
+
+![-t](https://i.ibb.co/QK1hYtR/Screenshot-from-2023-11-20-16-02-33.png)
 
 ## Roadmap
 
