@@ -33,8 +33,8 @@ class WebScraper:
             return None
 
     def download_file(self, url, download_dir="results"):
-        domain = urlparse(url).netloc
-        os.makedirs(download_dir + "/" + domain, exist_ok=True)
+        download_dir = os.path.join(download_dir, urlparse(self.url).netloc)
+        os.makedirs(download_dir, exist_ok=True)
         filename = os.path.basename(urlparse(url).path)
         file_path = os.path.join(download_dir, filename)
         try:
@@ -60,8 +60,7 @@ class WebScraper:
                         ):
                             file_url = urljoin(url, link)
                             if (
-                                self.is_valid_url(file_url)
-                                and file_url not in self.downloaded_files
+                                file_url not in self.downloaded_files
                             ):
                                 self.download_file(file_url)
                                 self.downloaded_files.add(file_url)
