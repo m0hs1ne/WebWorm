@@ -1,4 +1,4 @@
 requests==2.32.0
 beautifulsoup4==4.9.3
 webtech==1.3.4
-tqdm==4.66.1
+tqdm==4.66.3
