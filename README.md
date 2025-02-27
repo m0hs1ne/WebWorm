@@ -80,9 +80,9 @@ using the `-t` flag will detect technologies used by the website.
 
 ## Roadmap
 
-- [ ] Add support for scraping multiple websites.
-- [ ] Request with session cookies.
-- [ ] enumerate directories.
+- [X] Add support for scraping multiple websites.
+- [X] Request with session cookies.
+- [X] enumerate directories.
 - [ ] check for possible keys and secrets in js files.
 
 ## Contributing
